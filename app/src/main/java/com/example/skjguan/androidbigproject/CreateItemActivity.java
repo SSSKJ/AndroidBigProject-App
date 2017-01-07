@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,6 +28,21 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.liulishuo.magicprogresswidget.MagicProgressCircle;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/12/28 0028.
@@ -49,7 +66,14 @@ public class CreateItemActivity extends AppCompatActivity {
     private boolean isCircleRunning = false;
     private AnimatorSet set = new AnimatorSet();
     private float importanceNum = 0;
-    private String importanceLevel = "grey";
+    private String importanceLevel = "gray";
+    private String createTime = "";
+    String Url = "http://10.0.2.2:3000/";
+    String info = "";
+    String fileName = "info.txt";
+    boolean haspost = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +107,13 @@ public class CreateItemActivity extends AppCompatActivity {
                         .setPositiveButton("发布", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("", "year: " + year + " month: " + month + " day: " + day + " remindingTime: " + remindingTime + " importanceLevel: " + importanceLevel + " title: " + title.getText() + " content: " + content.getText());
-                                Intent intent = new Intent(CreateItemActivity.this, LoginActivity.class);
-                                startActivity(intent);
+                                Date date = new Date();
+                                createTime = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                                Log.d("", "year: " + year + " month: " + month + " day: " + day + " remindingTime: " + remindingTime + " importanceLevel: " + importanceLevel + " title: " + title.getText() + " content: " + content.getText() + " createTime: " + createTime);
+//                                Intent intent = new Intent(CreateItemActivity.this, LoginActivity.class);
+//                                startActivity(intent);
+                                Connect r = new Connect(Url + "save");
+                                new Thread(r).start();
                             }
                         })
                         .setNegativeButton("取消", null)
@@ -125,7 +153,7 @@ public class CreateItemActivity extends AppCompatActivity {
                 circle.setVisibility(View.INVISIBLE);
                 isCircleRunning = false;
                 if (importanceNum <= 0.2) {
-                    importanceLevel = "grey";
+                    importanceLevel = "gray";
                     importanceLevelView.setBackgroundColor(Color.parseColor("#EEEEEE"));
                 } else if (importanceNum <= 0.6) {
                     importanceLevel = "green";
@@ -225,4 +253,106 @@ public class CreateItemActivity extends AppCompatActivity {
         press = (ImageButton) findViewById(R.id.press);
         circle = (MagicProgressCircle) findViewById(R.id.circle);
     }
+
+    private class Connect implements Runnable {
+
+        private String u;
+
+        public Connect(String url) {
+            this.u = url;
+        }
+
+        @Override
+        public void run() {
+
+            HttpURLConnection httpURLConnection = null;
+
+            URL url = null;
+            Message message = Message.obtain();
+
+            try {
+                url = new URL(u);
+
+                httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setConnectTimeout(8000);
+                httpURLConnection.setReadTimeout(8000);
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                OutputStreamWriter writer = new OutputStreamWriter(httpURLConnection.getOutputStream());
+                writer.write(putJson());
+                writer.flush();
+                writer.close();
+                int responsecode = httpURLConnection.getResponseCode();
+                String cookieval = httpURLConnection.getHeaderField("set-cookie");
+                String sessionid = cookieval.substring(0, cookieval.indexOf(";"));//获取session
+                User.session = sessionid;
+                if (responsecode == 200) {
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuffer response = new StringBuffer();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+
+                    String result = response.toString();
+                    Log.d("result", "................" + result);
+                    reader.close();
+                    message.what = 1;
+                    info = result;
+                } else message.what = 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            handler.sendMessage(message);
+        }
+    }
+
+    Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message message) {
+            super.handleMessage(message);
+
+            if (message.what == 0)
+                Toast.makeText(CreateItemActivity.this, "服务器发生错误,连接失败", Toast.LENGTH_SHORT).show();
+            else if (message.what == 1) {
+                if (info.equals("OK")){
+                    Intent intent = new Intent(CreateItemActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                    //登录成功页面跳转
+//                    Log.d("Info", "....................OK");
+                } else {
+                    try (FileOutputStream fileOutputStream = openFileOutput(fileName, MODE_PRIVATE)) {
+                        fileOutputStream.write(("").getBytes());
+                    } catch (IOException ex) {
+                        Toast.makeText(CreateItemActivity.this, "发生未知错误", Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(CreateItemActivity.this, info, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+    };
+
+    String putJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username:", User.username);
+            jsonObject.put("title", title.getText().toString());
+            jsonObject.put("content", content.getText().toString());
+            jsonObject.put("year", year);
+            jsonObject.put("month", month);
+            jsonObject.put("day", day);
+            jsonObject.put("importanceLevel", importanceLevel);
+            jsonObject.put("createTime", createTime);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
+    }
+
+
 }
