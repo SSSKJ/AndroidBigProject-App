@@ -40,7 +40,6 @@ public class TodoItemAdapter extends RecyclerView.Adapter<TodoItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(todo_list.get(position).getTitle());
-        Log.e("title: ", todo_list.get(position).getTitle());
         holder.content.setText(todo_list.get(position).getContent());
         holder.createTime.setText(todo_list.get(position).getCreateTime());
         holder.deadline.setText(todo_list.get(position).getDeadline());

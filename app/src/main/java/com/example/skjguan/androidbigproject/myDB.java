@@ -24,7 +24,7 @@ public class myDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE = "CREATE TABLE IF not EXISTS " + TABLE_NAME + " (_id INTEGER PRIMARY KEY,title TEXT,content TEXT, createTime TEXT, deadline TEXT, remindingTime TEXT, importanceLevel TEXT, isLike INTEGER)";
+        String CREATE_TABLE = "CREATE TABLE IF not EXISTS " + TABLE_NAME + " (_id INTEGER PRIMARY KEY,title TEXT,content TEXT, createTime TEXT, deadline TEXT, remindingTime INTEGER, importanceLevel TEXT, isLike INTEGER)";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -38,7 +38,7 @@ public class myDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void insert(String title, String content, String createTime, String deadline, String remindingTime, String importanceLevel) {
+    public void insert(String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("title", title);
@@ -56,7 +56,7 @@ public class myDB extends SQLiteOpenHelper {
         return db.query(TABLE_NAME, new String[] { "_id", "title", "content", "createTime", "deadline", "remindingTime", "importanceLevel" }, null, null, null, null, null);
     }
 
-    public void updateByName(String title, String content, String createTime, String deadline, String remindingTime, String importanceLevel) {
+    public void updateByName(String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("content", content);
