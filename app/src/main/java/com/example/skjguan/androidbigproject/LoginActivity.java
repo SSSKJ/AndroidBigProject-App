@@ -1,5 +1,6 @@
 package com.example.skjguan.androidbigproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -183,9 +184,6 @@ public class LoginActivity extends AppCompatActivity {
             HttpURLConnection httpURLConnection = null;
 
             URL url = null;
-
-<<<<<<< HEAD
-=======
             Message message = Message.obtain();
 
             try {
@@ -226,7 +224,6 @@ public class LoginActivity extends AppCompatActivity {
 
             handler.sendMessage(message);
         }
->>>>>>> guan
     }
 
     Handler handler = new Handler() {
@@ -242,6 +239,9 @@ public class LoginActivity extends AppCompatActivity {
             else if (message.what == 1) {
                 if (info.equals("OK")){
                     Remember();
+                    Intent intent = new Intent(LoginActivity.this, CreateItemActivity.class);
+                    startActivity(intent);
+                    finish();
                     //登录成功页面跳转
                     Log.d("Info", "....................OK");
                 } else {
