@@ -47,10 +47,10 @@ public class ListActivity extends AppCompatActivity {
         db =  new myDB(ListActivity.this);
         boolean notLast = false;
         db.deleteByTitle("test");
-        db.insert("test", "hehe", "2015.12.01", "ddl", "2016.01.01", "gray");
-        db.insert("test", "hehe", "2016.09.01", "ddl", "2017.12.02", "red");
-        db.insert("test", "hehe", "2017.01.01", "ddl", "2017.11.01", "green");
-        db.insert("test", "hehe", "2017.01.02", "ddl", "2015.01.01", "green");
+        db.insert("test", "hehe", "2015.12.01", "2016.01.01", 1 ,"gray");
+        db.insert("test", "hehe", "2016.09.01", "2017.12.02", 2 ,"red");
+        db.insert("test", "hehe", "2017.01.01", "2017.11.01", 3 ,"green");
+        db.insert("test", "hehe", "2017.01.02", "2018.01.01", 4 ,"green");
         Cursor cursor = db.getTable();
         if (cursor != null && cursor.getCount() > 0) {
             notLast = true;
@@ -61,7 +61,7 @@ public class ListActivity extends AppCompatActivity {
             String content = cursor.getString(cursor.getColumnIndex("content"));
             String deadline = cursor.getString(cursor.getColumnIndex("deadline"));
             String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
-            String remindingTime = cursor.getString(cursor.getColumnIndex("remindingTime"));
+            int remindingTime = cursor.getInt(cursor.getColumnIndex("remindingTime"));
             String  importanceLevel = cursor.getString(cursor.getColumnIndex("importanceLevel"));
             TodoItem item = new TodoItem(title, content, createTime, deadline, remindingTime, importanceLevel);
             todolist.add(item);
@@ -153,7 +153,6 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isImportantLevelButtonChecked) {
-                    Log.e("test", "fuck");
                     changeSort(IMPORTANT_LEVEL, DESAESCENDING);
                     isImportantLevelButtonChecked = false;
                 }

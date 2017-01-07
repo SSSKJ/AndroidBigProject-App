@@ -11,10 +11,10 @@ public class TodoItem {
     private String content;
     private String createTime;
     private String deadline;
-    private String remindingTime;
+    private int remindingTime;
     private String importanceLevel;
 
-    public TodoItem( String title, String content, String createTime, String deadline, String remindingTime, String importanceLevel) {
+    public TodoItem( String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel) {
         this.content = content;
         this.title = title;
         this.createTime = createTime;
@@ -28,7 +28,7 @@ public class TodoItem {
         Log.e("content", content);
         Log.e("create", createTime);
         Log.e("deadline", deadline);
-        Log.e("remindingTime", remindingTime);
+        Log.e("remindingTime", String.valueOf(remindingTime));
         Log.e("importanceLevel", importanceLevel);
 
     }
@@ -50,7 +50,7 @@ public class TodoItem {
     }
 
     public String getRemindingTime() {
-        return remindingTime;
+        return String.valueOf(remindingTime);
     }
 
     public String getImportanceLevel() {
