@@ -12,4 +12,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="importanceLevelRed">#f16c6d</color>
     <color name="importanceLevelGreen">#7bd67b</color>
+    <color name="primary">#ff4180</color>
 </resources>
