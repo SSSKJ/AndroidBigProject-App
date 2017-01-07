@@ -1,6 +1,11 @@
 package com.example.skjguan.androidbigproject;
 
-import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,7 +38,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 public class LoginActivity extends AppCompatActivity {
+    private Button login;
 
     EditText UserName, PassWord, DoubleCheck;
     CheckBox Remember;
@@ -177,6 +184,8 @@ public class LoginActivity extends AppCompatActivity {
 
             URL url = null;
 
+<<<<<<< HEAD
+=======
             Message message = Message.obtain();
 
             try {
@@ -217,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
             handler.sendMessage(message);
         }
+>>>>>>> guan
     }
 
     Handler handler = new Handler() {

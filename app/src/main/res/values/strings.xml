@@ -16,4 +16,13 @@
     </string>
     <string name="register">注册</string>
     <string name="login">登录</string>
+    <string name="title">标题</string>
+    <string name="save">保存</string>
+    <string name="content">正文</string>
+    <string name="deadline">到期时间:</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="remindingBefore">提醒：</string>
+    <string name="remindingAfter">天提醒</string>
 </resources>
