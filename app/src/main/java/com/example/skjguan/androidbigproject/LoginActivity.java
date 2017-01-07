@@ -241,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (info.equals("OK")){
                     Remember();
                     User.username = UserName.getText().toString();
-                    Intent intent = new Intent(LoginActivity.this, CreateItemActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ListActivity.class);
                     startActivity(intent);
                     finish();
                     //登录成功页面跳转
