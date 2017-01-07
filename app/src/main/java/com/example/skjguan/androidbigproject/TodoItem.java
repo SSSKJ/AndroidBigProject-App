@@ -13,25 +13,27 @@ public class TodoItem {
     private String deadline;
     private int remindingTime;
     private String importanceLevel;
+    private int isLike;
 
-    public TodoItem( String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel) {
+    public TodoItem( String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel, int isLike) {
         this.content = content;
         this.title = title;
         this.createTime = createTime;
         this.deadline = deadline;
         this.remindingTime = remindingTime;
         this.importanceLevel = importanceLevel;
+        this.isLike = isLike;
     }
 
-    public void print() {
-        Log.e("title", title);
-        Log.e("content", content);
-        Log.e("create", createTime);
-        Log.e("deadline", deadline);
-        Log.e("remindingTime", String.valueOf(remindingTime));
-        Log.e("importanceLevel", importanceLevel);
-
-    }
+//    public void print() {
+//        Log.e("title", title);
+//        Log.e("content", content);
+//        Log.e("create", createTime);
+//        Log.e("deadline", deadline);
+//        Log.e("remindingTime", String.valueOf(remindingTime));
+//        Log.e("importanceLevel", importanceLevel);
+//
+//    }
 
     public String getTitle() {
         return title;
@@ -55,5 +57,9 @@ public class TodoItem {
 
     public String getImportanceLevel() {
         return importanceLevel;
+    }
+
+    public String getIsLike() {
+        return String.valueOf(isLike);
     }
 }

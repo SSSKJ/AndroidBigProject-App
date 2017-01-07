@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +48,10 @@ public class ListActivity extends AppCompatActivity {
         db =  new myDB(ListActivity.this);
         boolean notLast = false;
         db.deleteByTitle("test");
-        db.insert("test", "hehe", "2015.12.01", "2016.01.01", 1 ,"gray");
-        db.insert("test", "hehe", "2016.09.01", "2017.12.02", 2 ,"red");
-        db.insert("test", "hehe", "2017.01.01", "2017.11.01", 3 ,"green");
-        db.insert("test", "hehe", "2017.01.02", "2018.01.01", 4 ,"green");
+        db.insert("test1", "hehe", "2015.12.01", "2016.01.01", 1 ,"gray");
+        db.insert("test2", "hehe", "2016.09.01", "2017.12.02", 2 ,"red");
+        db.insert("test3", "hehe", "2017.01.01", "2017.11.01", 3 ,"green");
+        db.insert("test4", "hehe", "2017.01.02", "2018.01.01", 4 ,"green");
         Cursor cursor = db.getTable();
         if (cursor != null && cursor.getCount() > 0) {
             notLast = true;
@@ -63,7 +64,8 @@ public class ListActivity extends AppCompatActivity {
             String createTime = cursor.getString(cursor.getColumnIndex("createTime"));
             int remindingTime = cursor.getInt(cursor.getColumnIndex("remindingTime"));
             String  importanceLevel = cursor.getString(cursor.getColumnIndex("importanceLevel"));
-            TodoItem item = new TodoItem(title, content, createTime, deadline, remindingTime, importanceLevel);
+            int isLike = cursor.getInt(cursor.getColumnIndex("isLike"));
+            TodoItem item = new TodoItem(title, content, createTime, deadline, remindingTime, importanceLevel, isLike);
             todolist.add(item);
 //            item.print();
             notLast = cursor.moveToNext();
@@ -74,7 +76,7 @@ public class ListActivity extends AppCompatActivity {
 
     }
 
-    public void changeSort(int type, boolean isAscending) {
+    public void changeSort(int type, final boolean isAscending) {
 
 
         if (!todolist.isEmpty()) {
@@ -96,11 +98,19 @@ public class ListActivity extends AppCompatActivity {
 
                 }
                 default:{
+
                     break;
                 }
 
 
             }
+            Collections.sort(todolist, new Comparator<TodoItem>() {
+                @Override
+                public int compare(TodoItem o1, TodoItem o2) {
+                    Log.e(o1.getIsLike(), o2.getIsLike());
+                    return  o1.getIsLike().compareTo(o2.getIsLike());
+                }
+            });
             adapter.notifyDataSetChanged();
 
         }

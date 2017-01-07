@@ -7,50 +7,34 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main.appbar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:fitsSystemWindows="true"
         >
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorButtonNormal"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
-            >
-
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/main.toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin">
             <LinearLayout
+                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/createTimeButton"
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.0"
                     android:text="创建时间"
                     android:layout_height="wrap_content" />
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/importanceLevelButton"
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.0"
                     android:text="重要程度"
                     android:layout_height="wrap_content" />
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/remainTimeButton"
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.0"
                     android:text="剩余时间"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
