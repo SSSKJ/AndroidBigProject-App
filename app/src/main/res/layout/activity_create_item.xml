@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -26,7 +27,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="10dp"
-                android:hint="@string/title"/>
+                android:hint="@string/title"
+                android:maxLength="20"/>
             <Button
                 android:id="@+id/save"
                 android:text="@string/save"
@@ -55,22 +57,12 @@
             android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="@color/importantLevelGrey"/>
+            android:background="@color/importanceLevelGrey"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!--<com.example.skjguan.androidbigproject.LinedEditText-->
-                <!--android:id="@+id/content"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="10dp"-->
-                <!--android:textSize="30sp"-->
-                <!--android:gravity="top"-->
-                <!--android:inputType="textMultiLine"-->
-                <!--android:layout_weight="1"/>-->
 
             <EditText
                 android:layout_margin="10dp"
@@ -78,21 +70,41 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@null"
+                android:layout_weight="1"
                 android:gravity="top"/>
 
-            <ImageButton
-                android:id="@+id/press"
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/press_before"
-                android:background="@color/backgroundColor"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="end"
-                android:layout_marginRight="20dp"/>
+                android:layout_margin="20dp"
+                android:layout_gravity="center_horizontal">
+                <TableRow>
+                    <com.liulishuo.magicprogresswidget.MagicProgressCircle
+                        android:id="@+id/circle"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        app:mpc_start_color="@color/importanceLevelGrey"
+                        app:mpc_end_color="@color/importanceLevelRed"
+                        app:mpc_stroke_width="18dp"
+                        app:mpc_default_color="@color/mpc_default_color"
+                        android:visibility="invisible"/>
 
+                    <ImageButton
+                        android:id="@+id/press"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/press_before"
+                        android:background="@color/backgroundColor"
+                        android:layout_marginBottom="20dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="20dp"/>
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
+
+
 
     </LinearLayout>
 

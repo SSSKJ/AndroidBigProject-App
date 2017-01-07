@@ -1,7 +1,13 @@
 package com.example.skjguan.androidbigproject;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
+import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,6 +25,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.liulishuo.magicprogresswidget.MagicProgressCircle;
+
 /**
  * Created by Administrator on 2016/12/28 0028.
  */
@@ -24,7 +34,7 @@ public class CreateItemActivity extends AppCompatActivity {
     private ImageButton back;
     private EditText title;
     private Button save;
-    private View importanceLevel;
+    private View importanceLevelView;
     private EditText content;
     private ImageButton press;
     private Spinner yearSpinner;
@@ -35,6 +45,11 @@ public class CreateItemActivity extends AppCompatActivity {
     private String month = "";
     private String day = "";
     private String remindingTime = "";
+    private MagicProgressCircle circle;
+    private boolean isCircleRunning = false;
+    private AnimatorSet set = new AnimatorSet();
+    private float importanceNum = 0;
+    private String importanceLevel = "grey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +83,7 @@ public class CreateItemActivity extends AppCompatActivity {
                         .setPositiveButton("发布", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d("", "year: " + year + " month: " + month + " day: " + day + " remindingTime: " + remindingTime);
+                                Log.d("", "year: " + year + " month: " + month + " day: " + day + " remindingTime: " + remindingTime + " importanceLevel: " + importanceLevel + " title: " + title.getText() + " content: " + content.getText());
                                 Intent intent = new Intent(CreateItemActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
@@ -79,6 +94,57 @@ public class CreateItemActivity extends AppCompatActivity {
             }
         });
 
+        set.play(ObjectAnimator.ofFloat(circle, "percent", 0, 100));
+        set.setDuration(50000);
+
+        press.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                anim();
+            }
+        });
+    }
+
+    public void anim() {
+        if (isCircleRunning) {
+            importanceNum = circle.getPercent();
+            set.end();
+        } else {
+            circle.setVisibility(View.VISIBLE);
+            set.start();
+            isCircleRunning = true;
+            press.setImageResource(R.mipmap.press_after);
+        }
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                circle.setVisibility(View.INVISIBLE);
+                isCircleRunning = false;
+                if (importanceNum <= 0.2) {
+                    importanceLevel = "grey";
+                    importanceLevelView.setBackgroundColor(Color.parseColor("#EEEEEE"));
+                } else if (importanceNum <= 0.6) {
+                    importanceLevel = "green";
+                    importanceLevelView.setBackgroundColor(Color.parseColor("#7bd67b"));
+                } else {
+                    importanceLevel = "red";
+                    importanceLevelView.setBackgroundColor(Color.parseColor("#f16c6d"));
+                }
+                press.setImageResource(R.mipmap.press_before);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
     }
 
     public void spinner() {
@@ -154,8 +220,9 @@ public class CreateItemActivity extends AppCompatActivity {
         back = (ImageButton) findViewById(R.id.back);
         title = (EditText) findViewById(R.id.title) ;
         save = (Button) findViewById(R.id.save);
-        importanceLevel = (View) findViewById(R.id.importanceLevel);
+        importanceLevelView = (View) findViewById(R.id.importanceLevel);
         content = (EditText) findViewById(R.id.content);
         press = (ImageButton) findViewById(R.id.press);
+        circle = (MagicProgressCircle) findViewById(R.id.circle);
     }
 }

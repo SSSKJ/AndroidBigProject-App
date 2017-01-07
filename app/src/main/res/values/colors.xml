@@ -7,6 +7,9 @@
     <color name="textback">#7D9EC0</color>
     <color name="LnRBackground">#ffffff</color>
     <color name="darkGrey">#707070</color>
-    <color name="importantLevelGrey">#EEEEEE</color>
+    <color name="importanceLevelGrey">#EEEEEE</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="importanceLevelRed">#f16c6d</color>
+    <color name="importanceLevelGreen">#7bd67b</color>
 </resources>
