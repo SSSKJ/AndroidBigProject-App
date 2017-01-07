@@ -201,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                 int responsecode = httpURLConnection.getResponseCode();
                 String cookieval = httpURLConnection.getHeaderField("set-cookie");
                 String sessionid = cookieval.substring(0, cookieval.indexOf(";"));//获取session
+                User.session = sessionid;
                 Log.d("code", "respond code" + responsecode);
                 Log.d("session", sessionid);
                 if (responsecode == 200) {
@@ -239,6 +240,7 @@ public class LoginActivity extends AppCompatActivity {
             else if (message.what == 1) {
                 if (info.equals("OK")){
                     Remember();
+                    User.username = UserName.getText().toString();
                     Intent intent = new Intent(LoginActivity.this, CreateItemActivity.class);
                     startActivity(intent);
                     finish();
