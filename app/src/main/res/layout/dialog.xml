@@ -8,10 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:orientation="horizontal"
         android:gravity="center">
-
 
         <Spinner
             android:id="@+id/yearSpinner"
@@ -24,7 +23,7 @@
             android:text="@string/year"
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="5dp"/>
 
         <Spinner
             android:id="@+id/monthSpinner"
@@ -37,7 +36,7 @@
             android:text="@string/month"
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="5dp"/>
 
         <Spinner
             android:id="@+id/daySpinner"
@@ -49,8 +48,7 @@
             android:layout_height="wrap_content"
             android:text="@string/day"
             android:textSize="18sp"
-            android:textColor="@color/colorBlack"
-            android:layout_marginRight="5dp"/>
+            android:textColor="@color/colorBlack"/>
     </LinearLayout>
 
     <LinearLayout

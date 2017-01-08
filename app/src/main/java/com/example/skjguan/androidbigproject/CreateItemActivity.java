@@ -72,6 +72,8 @@ public class CreateItemActivity extends AppCompatActivity {
     String info = "";
     String fileName = "info.txt";
     boolean haspost = false;
+    private Date deaddate;
+    private String deadline;
 
 
 
@@ -318,12 +320,23 @@ public class CreateItemActivity extends AppCompatActivity {
             if (message.what == 0)
                 Toast.makeText(CreateItemActivity.this, "服务器发生错误,连接失败", Toast.LENGTH_SHORT).show();
             else if (message.what == 1) {
-                if (info.equals("OK")){
+                if (info.equals("OK")) {
+                    myDB db = new myDB(CreateItemActivity.this);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        deaddate = simpleDateFormat.parse(year + "-" + month + "-" + day);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    deadline = new SimpleDateFormat("yyyy-MM-dd").format(deaddate).toString();
+                    int remindingTimeInt = Integer.parseInt(remindingTime);
+                    db.insert(title.getText().toString(), content.getText().toString(), createTime, deadline, remindingTimeInt, importanceLevel);
                     Intent intent = new Intent(CreateItemActivity.this, ListActivity.class);
+                    CreateItemActivity.this.setResult(2);
                     startActivity(intent);
                     finish();
                     //登录成功页面跳转
-//                    Log.d("Info", "....................OK");
+                    Log.d("Info", "....................OK");
                 } else {
                     try (FileOutputStream fileOutputStream = openFileOutput(fileName, MODE_PRIVATE)) {
                         fileOutputStream.write(("").getBytes());
