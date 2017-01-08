@@ -319,7 +319,7 @@ public class CreateItemActivity extends AppCompatActivity {
                 Toast.makeText(CreateItemActivity.this, "服务器发生错误,连接失败", Toast.LENGTH_SHORT).show();
             else if (message.what == 1) {
                 if (info.equals("OK")){
-                    Intent intent = new Intent(CreateItemActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(CreateItemActivity.this, ListActivity.class);
                     startActivity(intent);
                     finish();
                     //登录成功页面跳转

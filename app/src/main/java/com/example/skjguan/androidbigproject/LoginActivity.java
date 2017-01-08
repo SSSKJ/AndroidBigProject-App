@@ -243,7 +243,6 @@ public class LoginActivity extends AppCompatActivity {
                     User.username = UserName.getText().toString();
                     Intent intent = new Intent(LoginActivity.this, ListActivity.class);
                     startActivity(intent);
-                    finish();
                     //登录成功页面跳转
                     Log.d("Info", "....................OK");
                 } else {
