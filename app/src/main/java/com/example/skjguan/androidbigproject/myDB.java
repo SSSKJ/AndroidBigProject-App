@@ -47,16 +47,17 @@ public class myDB extends SQLiteOpenHelper {
         cv.put("deadline", deadline);
         cv.put("remindingTime", remindingTime);
         cv.put("importanceLevel", importanceLevel);
+        cv.put("isLike", 0);  // default not like
         db.insert(TABLE_NAME, null, cv);
         db.close();
     }
 
     public Cursor getTable() {
         SQLiteDatabase db = getWritableDatabase();
-        return db.query(TABLE_NAME, new String[] { "_id", "title", "content", "createTime", "deadline", "remindingTime", "importanceLevel" }, null, null, null, null, null);
+        return db.query(TABLE_NAME, new String[] { "_id", "title", "content", "createTime", "deadline", "remindingTime", "importanceLevel", "isLike" }, null, null, null, null, null);
     }
 
-    public void updateByName(String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel) {
+    public void updateByName(String title, String content, String createTime, String deadline, int remindingTime, String importanceLevel, int isLike) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("content", content);
@@ -64,6 +65,7 @@ public class myDB extends SQLiteOpenHelper {
         cv.put("deadline", deadline);
         cv.put("remindingTime", remindingTime);
         cv.put("importanceLevel", importanceLevel);
+        cv.put("isLike", isLike);
         db.update(TABLE_NAME, cv, "title='" + title + "'", null);
         db.close();
     }
